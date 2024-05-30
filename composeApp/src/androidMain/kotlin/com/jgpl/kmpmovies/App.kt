@@ -30,7 +30,7 @@ fun App() {
             LaunchedEffect(true) {
                 scope.launch {
                     text = try {
-                        Greeting().greet()
+                        Greeting().doAction()
                     } catch (e: Exception) {
                         e.localizedMessage ?: "error"
                     }
