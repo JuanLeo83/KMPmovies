@@ -1,4 +1,7 @@
+package com.jgpl.kmpmovies
+
 import android.app.Application
+import com.jgpl.kmpmovies.di.androidModule
 import com.jgpl.kmpmovies.di.sharedModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -11,9 +14,7 @@ class KMPMoviesApplication : Application() {
         startKoin {
             androidContext(this@KMPMoviesApplication)
             androidLogger()
-            modules(
-                sharedModule()
-            )
+            modules(sharedModule() + androidModule)
         }
     }
 }

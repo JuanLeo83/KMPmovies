@@ -5,6 +5,7 @@ import com.jgpl.kmpmovies.data.source.remote.MoviesRemoteConfig
 import com.jgpl.kmpmovies.data.source.remote.MoviesRemoteSource
 import com.jgpl.kmpmovies.data.source.remote.MoviesRemoteSourceImpl
 import com.jgpl.kmpmovies.data.source.remote.MoviesUrls
+import com.jgpl.kmpmovies.data.source.remote.mapper.MovieRemoteMapper
 import com.jgpl.kmpmovies.domain.repository.MoviesRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -20,7 +21,7 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val sharedDataModule = module {
-    single<MoviesRepository> { MoviesRepositoryImpl() }
+    single<MoviesRepository> { MoviesRepositoryImpl(remoteSource = get()) }
 
     single<HttpClient> {
         HttpClient {
@@ -53,5 +54,12 @@ val sharedDataModule = module {
         }
     }
 
-    single<MoviesRemoteSource> { MoviesRemoteSourceImpl(httpClient = get()) }
+    single { MovieRemoteMapper() }
+
+    single<MoviesRemoteSource> {
+        MoviesRemoteSourceImpl(
+            httpClient = get(),
+            mapper = get()
+        )
+    }
 }
