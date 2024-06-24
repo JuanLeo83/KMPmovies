@@ -1,7 +1,8 @@
 package com.jgpl.kmpmovies.data.source.remote
 
 internal object MoviesUrls {
-    internal const val HOST = "api.themoviedb.org/3"
+    internal const val HOST = "api.themoviedb.org"
+    internal const val VERSION_API = "3/"
 
     internal const val MOVIES_NOW_PLAYING = "movie/now_playing"
     internal const val MOVIES_POPULAR = "movie/popular"

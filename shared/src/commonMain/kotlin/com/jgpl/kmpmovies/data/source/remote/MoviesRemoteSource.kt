@@ -21,7 +21,7 @@ class MoviesRemoteSourceImpl(
 ) : MoviesRemoteSource {
 
     override suspend fun getMoviesPopular(): Result<List<Movie>> = runCatching {
-        val response: HttpResponse = httpClient.get(MoviesUrls.MOVIES_POPULAR)
+        val response: HttpResponse = get(MoviesUrls.MOVIES_POPULAR)
         return if (response.status == HttpStatusCode.OK) {
             val moviesDto = Json.decodeFromString<PopularMoviesResponseDTO>(response.body())
             Result.success(mapper.toMovieModelList(moviesDto))
@@ -29,4 +29,8 @@ class MoviesRemoteSourceImpl(
             Result.failure(ApiRequestException(response.status.value, response.status.description))
         }
     }
+
+    private suspend fun get(url: String): HttpResponse = httpClient.get(joinUrl(url))
+
+    private fun joinUrl(url: String): String = MoviesUrls.VERSION_API + url
 }
